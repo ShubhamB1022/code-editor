@@ -9,44 +9,115 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            font-family: Arial, sans-serif;
+            font-family: 'Poppins', sans-serif;
+            background-color: #282c34;
+            color: #fff;
+            padding: 20px;
+        }
+        h2 {
+            color: #fff;
+        }
+        .editor-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            max-width: 1200px;
+        }
+        .editor-labels {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            font-size: 16px;
+            font-weight: bold;
+            color: #61dafb;
+            margin-bottom: 5px;
+        }
+        .editor-labels span {
+            flex: 1;
+            text-align: center;
         }
         .editor {
             display: flex;
-            width: 90%;
-            height: 300px;
+            width: 100%;
+            height: 320px;
+            gap: 15px;
         }
         textarea {
             width: 33%;
             height: 100%;
-            padding: 10px;
+            padding: 12px;
             font-family: monospace;
+            border: none;
+            border-radius: 8px;
+            background-color: #1e1e1e;
+            color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            outline: none;
+            font-size: 14px;
+            resize: none;
+        }
+        textarea::placeholder {
+            color: #bbb;
+        }
+        .output-container {
+            width: 100%;
+            max-width: 1200px;
+            margin-top: 50px;
+            text-align: center;
+        }
+        .output-placeholder {
+            font-size: 18px;
+            color: #bbb;
+            margin-bottom: 20px;
         }
         iframe {
             width: 100%;
-            height: 300px;
-            border: 1px solid #000;
-            margin-top: 10px;
+            height: 420px;
+            border: none;
+            background-color: #fff;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+        }
+        @media (max-width: 768px) {
+            .editor {
+                flex-direction: column;
+                height: auto;
+            }
+            textarea {
+                width: 100%;
+                height: 150px;
+            }
         }
     </style>
 </head>
 <body>
     <h2>Live Code Editor</h2>
-    <div class="editor">
-        <textarea id="html" placeholder="Write HTML here"></textarea>
-        <textarea id="css" placeholder="Write CSS here"></textarea>
-        <textarea id="js" placeholder="Write JavaScript here"></textarea>
+    <div class="editor-container">
+        <div class="editor-labels">
+            <span>HTML</span>
+            <span>CSS</span>
+            <span>JS</span>
+        </div>
+        <div class="editor">
+            <textarea id="html" placeholder="Write HTML here"></textarea>
+            <textarea id="css" placeholder="Write CSS here"></textarea>
+            <textarea id="js" placeholder="Write JavaScript here"></textarea>
+        </div>
     </div>
-    <iframe id="output"></iframe>
+    <div class="output-container">
+        <div class="output-placeholder">Output Preview</div>
+        <iframe id="output"></iframe>
+    </div>
     
     <script>
         function updateOutput() {
             const html = document.getElementById("html").value;
             const css = `<style>${document.getElementById("css").value}</style>`;
-            const js = `<script>${document.getElementById("js").value}<\/script>`;
+            const js = `<script>${document.getElementById("js").value}\x3C/script>`; 
             const iframe = document.getElementById("output").contentWindow.document;
             iframe.open();
-            iframe.write(html + css + js);
+            iframe.write(`${html}${css}${js}`);
             iframe.close();
         }
         
